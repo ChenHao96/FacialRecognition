@@ -6,94 +6,94 @@ const API_KEY = "58e0813e6a9458268a47bd360c694b43"
 const API_SECRET = "0vBdXZRFNDSyCWdnTAJlPnDLOcbho9sD"
 
 type Coordinate struct {
-	X float64 `json:"x"` //横向坐标
-	Y float64 `json:"y"` //纵向坐标
+	X float64 `json:"x,omitempty"` //横向坐标
+	Y float64 `json:"y,omitempty"` //纵向坐标
 }
 
 /********************************************************************landmark*********************************************************************************************************/
 type ResponseValue_Face_Landmark struct {
-	CONTOUR_CHIN                      Coordinate `json:"contour_chin"`
-	CONTOUR_LEFT1                     Coordinate `json:"contour_left1"`
-	CONTOUR_LEFT2                     Coordinate `json:"contour_left2"`
-	CONTOUR_LEFT3                     Coordinate `json:"contour_left3"`
-	CONTOUR_LEFT4                     Coordinate `json:"contour_left4"`
-	CONTOUR_LEFT5                     Coordinate `json:"contour_left5"`
-	CONTOUR_LEFT6                     Coordinate `json:"contour_left6"`
-	CONTOUR_LEFT7                     Coordinate `json:"contour_left7"`
-	CONTOUR_LEFT8                     Coordinate `json:"contour_left8"`
-	CONTOUR_LEFT9                     Coordinate `json:"contour_left9"`
-	CONTOUR_RIGHT1                    Coordinate `json:"contour_right1"`
-	CONTOUR_RIGHT2                    Coordinate `json:"contour_right2"`
-	CONTOUR_RIGHT3                    Coordinate `json:"contour_right3"`
-	CONTOUR_RIGHT4                    Coordinate `json:"contour_right4"`
-	CONTOUR_RIGHT5                    Coordinate `json:"contour_right5"`
-	CONTOUR_RIGHT6                    Coordinate `json:"contour_right6"`
-	CONTOUR_RIGHT7                    Coordinate `json:"contour_right7"`
-	CONTOUR_RIGHT8                    Coordinate `json:"contour_right8"`
-	CONTOUR_RIGHT9                    Coordinate `json:"contour_right9"`
+	CONTOUR_CHIN                      Coordinate `json:"contour_chin,omitempty"`
+	CONTOUR_LEFT1                     Coordinate `json:"contour_left1,omitempty"`
+	CONTOUR_LEFT2                     Coordinate `json:"contour_left2,omitempty"`
+	CONTOUR_LEFT3                     Coordinate `json:"contour_left3,omitempty"`
+	CONTOUR_LEFT4                     Coordinate `json:"contour_left4,omitempty"`
+	CONTOUR_LEFT5                     Coordinate `json:"contour_left5,omitempty"`
+	CONTOUR_LEFT6                     Coordinate `json:"contour_left6,omitempty"`
+	CONTOUR_LEFT7                     Coordinate `json:"contour_left7,omitempty"`
+	CONTOUR_LEFT8                     Coordinate `json:"contour_left8,omitempty"`
+	CONTOUR_LEFT9                     Coordinate `json:"contour_left9,omitempty"`
+	CONTOUR_RIGHT1                    Coordinate `json:"contour_right1,omitempty"`
+	CONTOUR_RIGHT2                    Coordinate `json:"contour_right2,omitempty"`
+	CONTOUR_RIGHT3                    Coordinate `json:"contour_right3,omitempty"`
+	CONTOUR_RIGHT4                    Coordinate `json:"contour_right4,omitempty"`
+	CONTOUR_RIGHT5                    Coordinate `json:"contour_right5,omitempty"`
+	CONTOUR_RIGHT6                    Coordinate `json:"contour_right6,omitempty"`
+	CONTOUR_RIGHT7                    Coordinate `json:"contour_right7,omitempty"`
+	CONTOUR_RIGHT8                    Coordinate `json:"contour_right8,omitempty"`
+	CONTOUR_RIGHT9                    Coordinate `json:"contour_right9,omitempty"`
 	LEFT_EYE_BOTTOM                   Coordinate `json:"left_eye_bottom"`
 	LEFT_EYE_CENTER                   Coordinate `json:"left_eye_center"`
 	LEFT_EYE_LEFT_CORNER              Coordinate `json:"left_eye_left_corner"`
-	LEFT_EYE_LOWER_LEFT_QUARTER       Coordinate `json:"left_eye_lower_left_quarter"`
+	LEFT_EYE_LOWER_LEFT_QUARTER       Coordinate `json:"left_eye_lower_left_quarter,omitempty"`
 	LEFT_EYE_PUPIL                    Coordinate `json:"left_eye_pupil"`
 	LEFT_EYE_RIGHT_CORNER             Coordinate `json:"left_eye_right_corner"`
 	LEFT_EYE_TOP                      Coordinate `json:"left_eye_top"`
-	LEFT_EYE_UPPER_LEFT_QUARTER       Coordinate `json:"left_eye_upper_left_quarter"`
-	LEFT_EYE_UPPER_RIGHT_QUARTER      Coordinate `json:"left_eye_upper_right_quarter"`
+	LEFT_EYE_UPPER_LEFT_QUARTER       Coordinate `json:"left_eye_upper_left_quarter,omitempty"`
+	LEFT_EYE_UPPER_RIGHT_QUARTER      Coordinate `json:"left_eye_upper_right_quarter,omitempty"`
 	LEFT_EYEBROW_LEFT_CORNER          Coordinate `json:"left_eyebrow_left_corner"`
-	LEFT_EYEBROW_LOWER_LEFT_QUARTER   Coordinate `json:"left_eyebrow_lower_left_quarter"`
-	LEFT_EYEBROW_LOWER_MIDDLE         Coordinate `json:"left_eyebrow_lower_middle"`
-	LEFT_EYEBROW_LOWER_RIGHT_QUARTER  Coordinate `json:"left_eyebrow_lower_right_quarter"`
+	LEFT_EYEBROW_LOWER_LEFT_QUARTER   Coordinate `json:"left_eyebrow_lower_left_quarter,omitempty"`
+	LEFT_EYEBROW_LOWER_MIDDLE         Coordinate `json:"left_eyebrow_lower_middle,omitempty"`
+	LEFT_EYEBROW_LOWER_RIGHT_QUARTER  Coordinate `json:"left_eyebrow_lower_right_quarter,omitempty"`
 	LEFT_EYEBROW_RIGHT_CORNER         Coordinate `json:"left_eyebrow_right_corner"`
-	LEFT_EYEBROW_UPPER_LEFT_QUARTER   Coordinate `json:"left_eyebrow_upper_left_quarter"`
-	LEFT_EYEBROW_UPPER_MIDDLE         Coordinate `json:"left_eyebrow_upper_middle"`
-	LEFT_EYEBROW_UPPER_RIGHT_QUARTER  Coordinate `json:"left_eyebrow_upper_right_quarter"`
+	LEFT_EYEBROW_UPPER_LEFT_QUARTER   Coordinate `json:"left_eyebrow_upper_left_quarter,omitempty"`
+	LEFT_EYEBROW_UPPER_MIDDLE         Coordinate `json:"left_eyebrow_upper_middle,omitempty"`
+	LEFT_EYEBROW_UPPER_RIGHT_QUARTER  Coordinate `json:"left_eyebrow_upper_right_quarter,omitempty"`
 	MOUTH_LEFT_CORNER                 Coordinate `json:"mouth_left_corner"`
 	MOUTH_LOWER_LIP_BOTTOM            Coordinate `json:"mouth_lower_lip_bottom"`
-	MOUTH_LOWER_LIP_LEFT_CONTOUR1     Coordinate `json:"mouth_lower_lip_left_contour1"`
-	MOUTH_LOWER_LIP_LEFT_CONTOUR2     Coordinate `json:"mouth_lower_lip_left_contour2"`
-	MOUTH_LOWER_LIP_LEFT_CONTOUR3     Coordinate `json:"mouth_lower_lip_left_contour3"`
-	MOUTH_LOWER_LIP_RIGHT_CONTOUR1    Coordinate `json:"mouth_lower_lip_right_contour1"`
-	MOUTH_LOWER_LIP_RIGHT_CONTOUR2    Coordinate `json:"mouth_lower_lip_right_contour2"`
-	MOUTH_LOWER_LIP_RIGHT_CONTOUR3    Coordinate `json:"mouth_lower_lip_right_contour3"`
+	MOUTH_LOWER_LIP_LEFT_CONTOUR1     Coordinate `json:"mouth_lower_lip_left_contour1,omitempty"`
+	MOUTH_LOWER_LIP_LEFT_CONTOUR2     Coordinate `json:"mouth_lower_lip_left_contour2,omitempty"`
+	MOUTH_LOWER_LIP_LEFT_CONTOUR3     Coordinate `json:"mouth_lower_lip_left_contour3,omitempty"`
+	MOUTH_LOWER_LIP_RIGHT_CONTOUR1    Coordinate `json:"mouth_lower_lip_right_contour1,omitempty"`
+	MOUTH_LOWER_LIP_RIGHT_CONTOUR2    Coordinate `json:"mouth_lower_lip_right_contour2,omitempty"`
+	MOUTH_LOWER_LIP_RIGHT_CONTOUR3    Coordinate `json:"mouth_lower_lip_right_contour3,omitempty"`
 	MOUTH_LOWER_LIP_TOP               Coordinate `json:"mouth_lower_lip_top"`
 	MOUTH_RIGHT_CORNER                Coordinate `json:"mouth_right_corner"`
 	MOUTH_UPPER_LIP_BOTTOM            Coordinate `json:"mouth_upper_lip_bottom"`
-	MOUTH_UPPER_LIP_LEFT_CONTOUR1     Coordinate `json:"mouth_upper_lip_left_contour1"`
-	MOUTH_UPPER_LIP_LEFT_CONTOUR2     Coordinate `json:"mouth_upper_lip_left_contour2"`
-	MOUTH_UPPER_LIP_LEFT_CONTOUR3     Coordinate `json:"mouth_upper_lip_left_contour3"`
-	MOUTH_UPPER_LIP_RIGHT_CONTOUR1    Coordinate `json:"mouth_upper_lip_right_contour1"`
-	MOUTH_UPPER_LIP_RIGHT_CONTOUR2    Coordinate `json:"mouth_upper_lip_right_contour2"`
-	MOUTH_UPPER_LIP_RIGHT_CONTOUR3    Coordinate `json:"mouth_upper_lip_right_contour3"`
+	MOUTH_UPPER_LIP_LEFT_CONTOUR1     Coordinate `json:"mouth_upper_lip_left_contour1,omitempty"`
+	MOUTH_UPPER_LIP_LEFT_CONTOUR2     Coordinate `json:"mouth_upper_lip_left_contour2,omitempty"`
+	MOUTH_UPPER_LIP_LEFT_CONTOUR3     Coordinate `json:"mouth_upper_lip_left_contour3,omitempty"`
+	MOUTH_UPPER_LIP_RIGHT_CONTOUR1    Coordinate `json:"mouth_upper_lip_right_contour1,omitempty"`
+	MOUTH_UPPER_LIP_RIGHT_CONTOUR2    Coordinate `json:"mouth_upper_lip_right_contour2,omitempty"`
+	MOUTH_UPPER_LIP_RIGHT_CONTOUR3    Coordinate `json:"mouth_upper_lip_right_contour3,omitempty"`
 	MOUTH_UPPER_LIP_TOP               Coordinate `json:"mouth_upper_lip_top"`
-	NOSE_CONTOUR_LEFT1                Coordinate `json:"nose_contour_left1"`
-	NOSE_CONTOUR_LEFT2                Coordinate `json:"nose_contour_left2"`
-	NOSE_CONTOUR_LEFT3                Coordinate `json:"nose_contour_left3"`
-	NOSE_CONTOUR_LOWER_MIDDLE         Coordinate `json:"nose_contour_lower_middle"`
-	NOSE_CONTOUR_RIGHT1               Coordinate `json:"nose_contour_right1"`
-	NOSE_CONTOUR_RIGHT2               Coordinate `json:"nose_contour_right2"`
-	NOSE_CONTOUR_RIGHT3               Coordinate `json:"nose_contour_right3"`
+	NOSE_CONTOUR_LEFT1                Coordinate `json:"nose_contour_left1,omitempty"`
+	NOSE_CONTOUR_LEFT2                Coordinate `json:"nose_contour_left2,omitempty"`
+	NOSE_CONTOUR_LEFT3                Coordinate `json:"nose_contour_left3,omitempty"`
+	NOSE_CONTOUR_LOWER_MIDDLE         Coordinate `json:"nose_contour_lower_middle,omitempty"`
+	NOSE_CONTOUR_RIGHT1               Coordinate `json:"nose_contour_right1,omitempty"`
+	NOSE_CONTOUR_RIGHT2               Coordinate `json:"nose_contour_right2,omitempty"`
+	NOSE_CONTOUR_RIGHT3               Coordinate `json:"nose_contour_right3,omitempty"`
 	NOSE_LEFT                         Coordinate `json:"nose_left"`
 	NOSE_RIGHT                        Coordinate `json:"nose_right"`
 	NOSE_TIP                          Coordinate `json:"nose_tip"`
 	RIGHT_EYE_BOTTOM                  Coordinate `json:"right_eye_bottom"`
 	RIGHT_EYE_CENTER                  Coordinate `json:"right_eye_center"`
 	RIGHT_EYE_LEFT_CORNER             Coordinate `json:"right_eye_left_corner"`
-	RIGHT_EYE_LOWER_LEFT_QUARTER      Coordinate `json:"right_eye_lower_left_quarter"`
-	RIGHT_EYE_LOWER_RIGHT_QUARTER     Coordinate `json:"right_eye_lower_right_quarter"`
+	RIGHT_EYE_LOWER_LEFT_QUARTER      Coordinate `json:"right_eye_lower_left_quarter,omitempty"`
+	RIGHT_EYE_LOWER_RIGHT_QUARTER     Coordinate `json:"right_eye_lower_right_quarter,omitempty"`
 	RIGHT_EYE_PUPIL                   Coordinate `json:"right_eye_pupil"`
 	RIGHT_EYE_RIGHT_CORNER            Coordinate `json:"right_eye_right_corner"`
 	RIGHT_EYE_TOP                     Coordinate `json:"right_eye_top"`
-	RIGHT_EYE_UPPER_LEFT_QUARTER      Coordinate `json:"right_eye_upper_left_quarter"`
-	RIGHT_EYE_UPPER_RIGHT_QUARTER     Coordinate `json:"right_eye_upper_right_quarter"`
+	RIGHT_EYE_UPPER_LEFT_QUARTER      Coordinate `json:"right_eye_upper_left_quarter,omitempty"`
+	RIGHT_EYE_UPPER_RIGHT_QUARTER     Coordinate `json:"right_eye_upper_right_quarter,omitempty"`
 	RIGHT_EYEBROW_LEFT_CORNER         Coordinate `json:"right_eyebrow_left_corner"`
-	RIGHT_EYEBROW_LOWER_LEFT_QUARTER  Coordinate `json:"right_eyebrow_lower_left_quarter"`
-	RIGHT_EYEBROW_LOWER_MIDDLE        Coordinate `json:"right_eyebrow_lower_middle"`
-	RIGHT_EYEBROW_LOWER_RIGHT_QUARTER Coordinate `json:"right_eyebrow_lower_right_quarter"`
+	RIGHT_EYEBROW_LOWER_LEFT_QUARTER  Coordinate `json:"right_eyebrow_lower_left_quarter,omitempty"`
+	RIGHT_EYEBROW_LOWER_MIDDLE        Coordinate `json:"right_eyebrow_lower_middle,omitempty"`
+	RIGHT_EYEBROW_LOWER_RIGHT_QUARTER Coordinate `json:"right_eyebrow_lower_right_quarter,omitempty"`
 	RIGHT_EYEBROW_RIGHT_CORNER        Coordinate `json:"right_eyebrow_right_corner"`
-	RIGHT_EYEBROW_UPPER_LEFT_QUARTER  Coordinate `json:"right_eyebrow_upper_left_quarter"`
-	RIGHT_EYEBROW_UPPER_MIDDLE        Coordinate `json:"right_eyebrow_upper_middle"`
-	RIGHT_EYEBROW_UPPER_RIGHT_QUARTER Coordinate `json:"right_eyebrow_upper_right_quarter"`
+	RIGHT_EYEBROW_UPPER_LEFT_QUARTER  Coordinate `json:"right_eyebrow_upper_left_quarter,omitempty"`
+	RIGHT_EYEBROW_UPPER_MIDDLE        Coordinate `json:"right_eyebrow_upper_middle,omitempty"`
+	RIGHT_EYEBROW_UPPER_RIGHT_QUARTER Coordinate `json:"right_eyebrow_upper_right_quarter,omitempty"`
 }
 /*************************************************************************************************************************************************************************************/
 

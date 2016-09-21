@@ -34,7 +34,7 @@ func LandmarkFaceImg(param LandmarkRequestParam) LandmarkResponseValue {
 	reqParam.Set("api_secret", API_SECRET)
 	reqParam.Set("face_id", param.FACE_ID)
 	reqType := param.TYPE
-	if "25p" != reqType || "83p" != reqType {
+	if "25p" != reqType && "83p" != reqType {
 		reqType = "83p"
 	}
 	reqParam.Set("type", reqType)
