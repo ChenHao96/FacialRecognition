@@ -13,9 +13,9 @@ import (
 	"strconv"
 )
 
-const api_url = API_URL + "/detection/detect"
+const detectApi_url = API_URL + "/detection/detect"
 
-type RequestParam struct {
+type DetectRequestParam struct {
 	URL       string //待检测图片的URL与img二选一
 	IMG       string //通过POST方法上传的二进制数据，原始图片大小需要小于1M与url二选一
 	MODE      string //检测模式可以是normal(默认) 或者 oneface 。在oneface模式中，检测器仅找出图片中最大的一张脸
@@ -24,7 +24,7 @@ type RequestParam struct {
 	ASYNC     bool   //如果置为true，该API将会以异步方式被调用；也就是立即返回一个session id，稍后可通过/info/get_session查询结果。默认值为false
 }
 
-type ResponseValue struct {
+type DetectResponseValue struct {
 	FACE       []ResponseValue_Face `json:"face"`          //被检测出的人脸的列表
 	IMG_HEIGHT int                  `json:"img_height"`    //请求图片的高度
 	IMG_ID     string               `json:"img_id"`        //Face++系统中的图片标识符，用于标识用户请求中的图片
@@ -33,9 +33,9 @@ type ResponseValue struct {
 	URL        string               `json:"url,omitempty"` //请求中图片的url
 }
 
-func DetectFaceImg(param RequestParam) ResponseValue {
+func DetectFaceImg(param DetectRequestParam) DetectResponseValue {
 
-	var responseValue ResponseValue
+	var responseValue DetectResponseValue
 	var body []byte
 	var err error
 
@@ -53,7 +53,7 @@ func DetectFaceImg(param RequestParam) ResponseValue {
 		reqParam.Set("mode", param.MODE)
 	}
 
-	apiUrl := api_url + "?" + reqParam.Encode()
+	apiUrl := detectApi_url + "?" + reqParam.Encode()
 	if "" == param.URL && param.IMG != "" {
 
 		body, err = upload("img", param.IMG, apiUrl)
