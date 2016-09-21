@@ -9,7 +9,6 @@ import (
 	"io"
 	"os"
 	"mime/multipart"
-	"fmt"
 	"net/url"
 	"strconv"
 )
@@ -55,9 +54,6 @@ func DetectFaceImg(param RequestParam) ResponseValue {
 	}
 
 	apiUrl := api_url + "?" + reqParam.Encode()
-
-	fmt.Println(apiUrl)
-
 	if "" == param.URL && param.IMG != "" {
 
 		body, err = upload("img", param.IMG, apiUrl)
