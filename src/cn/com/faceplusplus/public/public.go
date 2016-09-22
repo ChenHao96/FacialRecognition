@@ -7,6 +7,7 @@ import (
 	"mime/multipart"
 	"bytes"
 	"net/http"
+	"fmt"
 )
 
 const API_URL = "http://apicn.faceplusplus.com"
@@ -55,6 +56,8 @@ func GetRequest(apiUrl string) (body []byte, err error) {
 		body, err = ioutil.ReadAll(response.Body)
 	}
 
+	fmt.Println(string(body))
+
 	return
 }
 
@@ -63,7 +66,9 @@ func Upload(apiUrl string, param UploadRequestParam) (body []byte, err error) {
 	if "" == param.URL && param.IMG != "" {
 
 		body, err = upload("img", param.IMG, apiUrl)
+		fmt.Println(string(body))
 	} else if "" != param.URL && param.IMG != "" {
+
 		apiUrl += "&url=" + param.URL
 		body, err = GetRequest(apiUrl)
 	}
