@@ -9,23 +9,16 @@
 package detection
 
 import (
-	"bytes"
 	. "cn/com/faceplusplus/public"
 	"encoding/json"
-	"io"
-	"io/ioutil"
-	"mime/multipart"
-	"net/http"
 	"net/url"
-	"os"
 	"strconv"
 )
 
 const detectApi_url = API_URL + "/detection/detect"
 
 type DetectRequestParam struct {
-	URL       string //待检测图片的URL与img二选一
-	IMG       string //通过POST方法上传的二进制数据，原始图片大小需要小于1M与url二选一
+	UPLOAD    UploadRequestParam
 	MODE      string //检测模式可以是normal(默认) 或者 oneFace 。在oneFace模式中，检测器仅找出图片中最大的一张脸
 	ATTRIBUTE string //可以是none或者由逗号分割的属性列表。默认为gender, age, race, smiling。目前支持的属性包括：gender, age, race, smiling, glass, pose
 	TAG       string //可以为图片中检测出的每一张Face指定一个不包含^@,&=*'"等非法字符且不超过255字节的字符串作为tag，tag信息可以通过 /info/get_face 查询
@@ -84,62 +77,12 @@ func DetectFaceImg(param DetectRequestParam) (responseValue DetectResponseValue,
 		reqParam.Set("mode", param.MODE)
 	}
 
-	var body []byte
 	apiUrl := detectApi_url + "?" + reqParam.Encode()
-	if "" == param.URL && param.IMG != "" {
-
-		body, err = upload("img", param.IMG, apiUrl)
-	} else if "" == param.IMG && param.URL != "" {
-
-		apiUrl += "&url=" + param.URL
-		response, err := http.Get(apiUrl)
-		defer response.Body.Close()
-		if nil == err {
-			body, err = ioutil.ReadAll(response.Body)
-		}
-	}
-
+	body, err := Upload(apiUrl, param.UPLOAD)
 	if nil != err {
 		return
 	}
 
 	err = json.Unmarshal(body, &responseValue)
-	return
-}
-
-func upload(requestKey, fileName, url string) (body []byte, err error) {
-
-	buf := new(bytes.Buffer)
-	w := multipart.NewWriter(buf)
-
-	fw, err := w.CreateFormFile(requestKey, fileName)
-	if err != nil {
-		return
-	}
-
-	fd, err := os.Open(fileName)
-	defer fd.Close()
-	if err != nil {
-		return
-	}
-
-	if _, err = io.Copy(fw, fd); err != nil {
-		return
-	}
-	w.Close()
-
-	request, err := http.NewRequest("POST", url, buf)
-	if err != nil {
-		return
-	}
-	request.Header.Set("Content-Type", w.FormDataContentType())
-
-	response, err := http.DefaultClient.Do(request)
-	defer response.Body.Close()
-	if err != nil {
-		return
-	}
-
-	body, err = ioutil.ReadAll(response.Body)
 	return
 }

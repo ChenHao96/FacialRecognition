@@ -1,5 +1,14 @@
 package faceplusplus
 
+import (
+	"io/ioutil"
+	"io"
+	"os"
+	"mime/multipart"
+	"bytes"
+	"net/http"
+)
+
 const API_URL = "http://apicn.faceplusplus.com"
 
 const API_KEY = "58e0813e6a9458268a47bd360c694b43"
@@ -8,6 +17,11 @@ const API_SECRET = "0vBdXZRFNDSyCWdnTAJlPnDLOcbho9sD"
 type Coordinate struct {
 	X float64 `json:"x,omitempty"` //横向坐标
 	Y float64 `json:"y,omitempty"` //纵向坐标
+}
+
+type UploadRequestParam struct {
+	URL string //待检测图片的URL与img二选一
+	IMG string //通过POST方法上传的二进制数据，原始图片大小需要小于1M与url二选一
 }
 
 type TrainResponseValue struct {
@@ -31,4 +45,59 @@ type ResponseValue_Face_Attribute_Confidence struct {
 	PERSON_ID   string  `json:"person_id,omitempty"`
 	PERSON_NAME string  `json:"person_name,omitempty"`
 	TAG         string  `json:"tag,omitempty"`
+}
+
+func Upload(apiUrl string, param UploadRequestParam) (body []byte, err error) {
+
+	if "" == param.URL && param.IMG != "" {
+
+		body, err = upload("img", param.IMG, apiUrl)
+	} else if "" == param.IMG && param.URL != "" {
+
+		apiUrl += "&url=" + param.URL
+		response, err := http.Get(apiUrl)
+		defer response.Body.Close()
+		if nil == err {
+			body, err = ioutil.ReadAll(response.Body)
+		}
+	}
+
+	return
+}
+
+func upload(requestKey, fileName, url string) (body []byte, err error) {
+
+	buf := new(bytes.Buffer)
+	w := multipart.NewWriter(buf)
+
+	fw, err := w.CreateFormFile(requestKey, fileName)
+	if err != nil {
+		return
+	}
+
+	fd, err := os.Open(fileName)
+	defer fd.Close()
+	if err != nil {
+		return
+	}
+
+	if _, err = io.Copy(fw, fd); err != nil {
+		return
+	}
+	w.Close()
+
+	request, err := http.NewRequest("POST", url, buf)
+	if err != nil {
+		return
+	}
+	request.Header.Set("Content-Type", w.FormDataContentType())
+
+	response, err := http.DefaultClient.Do(request)
+	defer response.Body.Close()
+	if err != nil {
+		return
+	}
+
+	body, err = ioutil.ReadAll(response.Body)
+	return
 }
