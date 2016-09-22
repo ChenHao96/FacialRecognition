@@ -48,6 +48,17 @@ type ResponseValue_Face_Attribute_Confidence struct {
 	TAG         string  `json:"tag,omitempty"`
 }
 
+type SearchAndGroupRequestParam struct {
+	FaceSet_ID   string //用于搜索的face组成的faceSetId
+	FaceSet_NAME string //用于搜索的face组成的faceSetName
+}
+
+type ResponseValue_Candidate struct {
+	FACE_ID    string  `json:"face_id,omitempty"`
+	SIMILARITY float64 `json:"similarity,omitempty"`
+	TAG        string  `json:"tag,omitempty"`
+}
+
 func GetRequest(apiUrl string) (body []byte, err error) {
 
 	response, err := http.Get(apiUrl)
