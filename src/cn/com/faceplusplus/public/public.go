@@ -47,19 +47,25 @@ type ResponseValue_Face_Attribute_Confidence struct {
 	TAG         string  `json:"tag,omitempty"`
 }
 
+func GetRequest(apiUrl string) (body []byte, err error) {
+
+	response, err := http.Get(apiUrl)
+	defer response.Body.Close()
+	if nil == err {
+		body, err = ioutil.ReadAll(response.Body)
+	}
+
+	return
+}
+
 func Upload(apiUrl string, param UploadRequestParam) (body []byte, err error) {
 
 	if "" == param.URL && param.IMG != "" {
 
 		body, err = upload("img", param.IMG, apiUrl)
-	} else if "" == param.IMG && param.URL != "" {
-
+	} else if "" != param.URL && param.IMG != "" {
 		apiUrl += "&url=" + param.URL
-		response, err := http.Get(apiUrl)
-		defer response.Body.Close()
-		if nil == err {
-			body, err = ioutil.ReadAll(response.Body)
-		}
+		body, err = GetRequest(apiUrl)
 	}
 
 	return

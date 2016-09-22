@@ -8,8 +8,6 @@ package detection
 import (
 	. "cn/com/faceplusplus/public"
 	"encoding/json"
-	"io/ioutil"
-	"net/http"
 	"net/url"
 )
 
@@ -128,13 +126,7 @@ func LandmarkFaceImg(param LandmarkRequestParam) (responseValue LandmarkResponse
 	reqParam.Set("type", reqType)
 
 	apiUrl := landmarkApi_url + "?" + reqParam.Encode()
-	response, err := http.Get(apiUrl)
-	defer response.Body.Close()
-	if nil != err {
-		return
-	}
-
-	body, err := ioutil.ReadAll(response.Body)
+	body, err := GetRequest(apiUrl)
 	if nil != err {
 		return
 	}

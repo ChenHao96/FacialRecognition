@@ -13,8 +13,6 @@ package train
 import (
 	. "cn/com/faceplusplus/public"
 	"encoding/json"
-	"io/ioutil"
-	"net/http"
 	"net/url"
 )
 
@@ -38,13 +36,7 @@ func SearchFacesImg(param SearchRequestParam) (sessionId string, err error) {
 	}
 
 	apiUtl := searchApi_url + "?" + reqParam.Encode()
-	response, err := http.Get(apiUtl)
-	defer response.Body.Close()
-	if nil != err {
-		return
-	}
-
-	body, err := ioutil.ReadAll(response.Body)
+	body, err := GetRequest(apiUtl)
 	if nil != err {
 		return
 	}
