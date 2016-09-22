@@ -18,12 +18,7 @@ import (
 
 const searchApi_url = API_URL + "/train/search"
 
-type SearchRequestParam struct {
-	FaceSet_ID   string //用于搜索的face组成的faceSetId
-	FaceSet_NAME string //用于搜索的face组成的faceSetName
-}
-
-func SearchFacesImg(param SearchRequestParam) (sessionId string, err error) {
+func SearchFacesImg(param SearchAndGroupRequestParam) (sessionId string, err error) {
 
 	reqParam := url.Values{}
 	reqParam.Set("api_key", API_KEY)
