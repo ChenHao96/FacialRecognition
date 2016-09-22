@@ -49,9 +49,11 @@ func IdentifyFacesImg(param IdentifyRequestParam) (responseValue IdentifyRespons
 	if "" != param.GROUP_NAME {
 		reqParam.Set("group_name", param.GROUP_NAME)
 	}
-	if "" != param.MODE {
-		reqParam.Set("mode", param.MODE)
+	var mode = param.MODE
+	if "normal" != mode && "oneFace" != mode{
+		mode = "normal"
 	}
+	reqParam.Set("mode", mode)
 	var key_face_id string
 	if len(param.KEY_FACE_ID) > 0 {
 		for index, faceId := range param.KEY_FACE_ID {
