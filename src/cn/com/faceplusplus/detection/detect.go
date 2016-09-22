@@ -9,15 +9,15 @@
 package detection
 
 import (
-	. "cn/com/faceplusplus/public"
-	"net/http"
-	"io/ioutil"
-	"encoding/json"
 	"bytes"
+	. "cn/com/faceplusplus/public"
+	"encoding/json"
 	"io"
-	"os"
+	"io/ioutil"
 	"mime/multipart"
+	"net/http"
 	"net/url"
+	"os"
 	"strconv"
 )
 
@@ -40,23 +40,12 @@ type ResponseValue_Face struct {
 }
 
 type ResponseValue_Face_Attribute struct {
-	AGE     Attribute_Other                         `json:"age"`              //包含年龄分析结果，value的值为一个非负整数表示估计的年龄, range表示估计年龄的正负区间
-	GENDER  ResponseValue_Face_Attribute_Confidence `json:"gender"`           //包含性别分析结果，value的值为Male/Female, confidence表示置信度
+	AGE     Attribute_Other                          `json:"age"`             //包含年龄分析结果，value的值为一个非负整数表示估计的年龄, range表示估计年龄的正负区间
+	GENDER  ResponseValue_Face_Attribute_Confidence  `json:"gender"`          //包含性别分析结果，value的值为Male/Female, confidence表示置信度
 	GLASS   *ResponseValue_Face_Attribute_Confidence `json:"glass,omitempty"` //包含眼镜佩戴分析结果，value的值为None/Dark/Normal, confidence表示置信度
 	POSE    *ResponseValue_Face_Attribute_Pose       `json:"pose,omitempty"`  //包含脸部姿势分析结果，包括pitch_angle, roll_angle, yaw_angle，分别对应抬头，旋转（平面旋转），摇头。单位为角度。
-	RACE    ResponseValue_Face_Attribute_Confidence `json:"race"`             //包含人种分析结果，value的值为Asian/White/Black, confidence表示置信度
-	SMILING Attribute_Other                         `json:"smiling"`          //包含微笑程度分析结果，value的值为0－100的实数，越大表示微笑程度越高
-}
-
-type ResponseValue_Face_Position struct {
-	CENTER      Coordinate `json:"center"`      //检出的人脸框的中心点坐标, x & y 坐标分别表示在图片中的宽度和高度的百分比 (0~100之间的实数)
-	EYE_LEFT    Coordinate `json:"eye_left"`    //相应人脸的左眼坐标，x & y 坐标分别表示在图片中的宽度和高度的百分比 (0~100之间的实数)
-	EYE_RIGHT   Coordinate `json:"eye_right"`   //相应人脸的右眼坐标，x & y 坐标分别表示在图片中的宽度和高度的百分比 (0~100之间的实数)
-	HEIGHT      float32    `json:"height"`      //0~100之间的实数，表示检出的脸的高度在图片中百分比
-	MOUTH_LEFT  Coordinate `json:"mouth_left"`  //相应人脸的左侧嘴角坐标，x & y 坐标分别表示在图片中的宽度和高度的百分比 (0~100之间的实数)
-	MOUTH_RIGHT Coordinate `json:"mouth_right"` //相应人脸的右侧嘴角坐标，x & y 坐标分别表示在图片中的宽度和高度的百分比 (0~100之间的实数
-	NOSE        Coordinate `json:"nose"`        //相应人脸的鼻尖坐标，x & y 坐标分别表示在图片中的宽度和高度的百分比 (0~100之间的实数)
-	WIDTH       float32    `json:"width"`       //0~100之间的实数，表示检出的脸的宽度在图片中百分比
+	RACE    ResponseValue_Face_Attribute_Confidence  `json:"race"`            //包含人种分析结果，value的值为Asian/White/Black, confidence表示置信度
+	SMILING Attribute_Other                          `json:"smiling"`         //包含微笑程度分析结果，value的值为0－100的实数，越大表示微笑程度越高
 }
 
 type ResponseValue_Face_Attribute_Pose struct {
@@ -70,11 +59,6 @@ type Attribute_Other struct {
 	VALUE float64 `json:"value,omitempty"` //值
 }
 
-type ResponseValue_Face_Attribute_Confidence struct {
-	CONFIDENCE float32 `json:"confidence,omitempty"` //confidence表示置信度
-	VALUE      string  `json:"value,omitempty"`      //value的值为Male/Female
-}
-
 type DetectResponseValue struct {
 	FACE       []ResponseValue_Face `json:"face"`          //被检测出的人脸的列表
 	IMG_HEIGHT int                  `json:"img_height"`    //请求图片的高度
@@ -84,11 +68,7 @@ type DetectResponseValue struct {
 	URL        string               `json:"url,omitempty"` //请求中图片的url
 }
 
-func DetectFaceImg(param DetectRequestParam) DetectResponseValue {
-
-	var responseValue DetectResponseValue
-	var body []byte
-	var err error
+func DetectFaceImg(param DetectRequestParam) (responseValue DetectResponseValue, err error) {
 
 	reqParam := url.Values{}
 	reqParam.Set("api_key", API_KEY)
@@ -104,6 +84,7 @@ func DetectFaceImg(param DetectRequestParam) DetectResponseValue {
 		reqParam.Set("mode", param.MODE)
 	}
 
+	var body []byte
 	apiUrl := detectApi_url + "?" + reqParam.Encode()
 	if "" == param.URL && param.IMG != "" {
 
@@ -112,23 +93,18 @@ func DetectFaceImg(param DetectRequestParam) DetectResponseValue {
 
 		apiUrl += "&url=" + param.URL
 		response, err := http.Get(apiUrl)
-		if nil != err {
-			panic(err.Error())
+		defer response.Body.Close()
+		if nil == err {
+			body, err = ioutil.ReadAll(response.Body)
 		}
-		body, err = ioutil.ReadAll(response.Body)
-		response.Body.Close()
 	}
 
 	if nil != err {
-		panic(err.Error())
+		return
 	}
 
 	err = json.Unmarshal(body, &responseValue)
-	if nil != err {
-		panic(err.Error())
-	}
-
-	return responseValue
+	return
 }
 
 func upload(requestKey, fileName, url string) (body []byte, err error) {

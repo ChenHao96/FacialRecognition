@@ -12,10 +12,10 @@ package train
 
 import (
 	. "cn/com/faceplusplus/public"
-	"net/url"
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 )
 
 const verifyApi_url = API_URL + "/train/verify"
@@ -25,9 +25,7 @@ type VerifyRequestParam struct {
 	PERSON_NAME string //验证对象personName
 }
 
-func VerifyPersonImg(param VerifyRequestParam) string {
-
-	var responseValue TrainResponseValue
+func VerifyPersonImg(param VerifyRequestParam) (sessionId string, err error) {
 
 	reqParam := url.Values{}
 	reqParam.Set("api_key", API_KEY)
@@ -39,20 +37,23 @@ func VerifyPersonImg(param VerifyRequestParam) string {
 		reqParam.Set("person_name", param.PERSON_NAME)
 	}
 
-	response, err := http.Get(verifyApi_url)
+	apiUtl := verifyApi_url + "?" + reqParam.Encode()
+	response, err := http.Get(apiUtl)
 	defer response.Body.Close()
 	if nil != err {
-		panic(err.Error())
+		return
 	}
+
 	body, err := ioutil.ReadAll(response.Body)
 	if nil != err {
-		panic(err.Error())
+		return
 	}
 
+	var responseValue TrainResponseValue
 	err = json.Unmarshal(body, &responseValue)
-	if nil != err {
-		panic(err.Error())
+	if nil == err {
+		sessionId = responseValue.SESSION_ID
 	}
 
-	return responseValue.SESSION_ID
+	return
 }

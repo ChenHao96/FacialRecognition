@@ -13,9 +13,9 @@ package train
 import (
 	. "cn/com/faceplusplus/public"
 	"encoding/json"
+	"io/ioutil"
 	"net/http"
 	"net/url"
-	"io/ioutil"
 )
 
 const searchApi_url = API_URL + "/train/search"
@@ -25,9 +25,7 @@ type SearchRequestParam struct {
 	FaceSet_NAME string //用于搜索的face组成的faceSetName
 }
 
-func SearchFacesImg(param SearchRequestParam) string {
-
-	var responseValue TrainResponseValue
+func SearchFacesImg(param SearchRequestParam) (sessionId string, err error) {
 
 	reqParam := url.Values{}
 	reqParam.Set("api_key", API_KEY)
@@ -39,20 +37,23 @@ func SearchFacesImg(param SearchRequestParam) string {
 		reqParam.Set("faceset_name", param.FaceSet_NAME)
 	}
 
-	response, err := http.Get(searchApi_url)
+	apiUtl := searchApi_url + "?" + reqParam.Encode()
+	response, err := http.Get(apiUtl)
 	defer response.Body.Close()
 	if nil != err {
-		panic(err.Error())
+		return
 	}
+
 	body, err := ioutil.ReadAll(response.Body)
 	if nil != err {
-		panic(err.Error())
+		return
 	}
 
+	var responseValue TrainResponseValue
 	err = json.Unmarshal(body, &responseValue)
-	if nil != err {
-		panic(err.Error())
+	if nil == err {
+		sessionId = responseValue.SESSION_ID
 	}
 
-	return responseValue.SESSION_ID
+	return
 }

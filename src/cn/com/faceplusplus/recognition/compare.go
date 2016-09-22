@@ -23,8 +23,8 @@ type CompareRequestParam struct {
 }
 
 type CompareResponseValue struct {
-	SESSION_ID           string  `json:"session_id"`
-	SIMILARITY           float64 `json:"similarity"`
+	SESSION_ID           string                             `json:"session_id"`
+	SIMILARITY           float64                            `json:"similarity"`
 	COMPONENT_SIMILARITY ResponseValue_Component_Similarity `json:"component_similarity"`
 }
 
@@ -35,9 +35,7 @@ type ResponseValue_Component_Similarity struct {
 	EYEBROW float64 `json:"eyebrow"`
 }
 
-func CompareFaceImg(param CompareRequestParam) CompareResponseValue {
-
-	var responseValue CompareResponseValue
+func CompareFaceImg(param CompareRequestParam) (responseValue CompareResponseValue, err error) {
 
 	reqParam := url.Values{}
 	reqParam.Set("api_key", API_KEY)
@@ -50,20 +48,18 @@ func CompareFaceImg(param CompareRequestParam) CompareResponseValue {
 		reqParam.Set("face_id2", param.FACE_ID2)
 	}
 
-	response, err := http.Get(compareApi_url)
+	apiUtl := compareApi_url + "?" + reqParam.Encode()
+	response, err := http.Get(apiUtl)
 	defer response.Body.Close()
 	if nil != err {
-		panic(err.Error())
+		return
 	}
+
 	body, err := ioutil.ReadAll(response.Body)
 	if nil != err {
-		panic(err.Error())
+		return
 	}
 
 	err = json.Unmarshal(body, &responseValue)
-	if nil != err {
-		panic(err.Error())
-	}
-
-	return responseValue
+	return
 }

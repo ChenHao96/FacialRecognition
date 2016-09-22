@@ -14,9 +14,9 @@ package train
 import (
 	. "cn/com/faceplusplus/public"
 	"encoding/json"
+	"io/ioutil"
 	"net/http"
 	"net/url"
-	"io/ioutil"
 )
 
 const identifyApi_url = API_URL + "/train/identify"
@@ -26,9 +26,7 @@ type IdentifyRequestParam struct {
 	GROUP_NAME string //识别候选人组成的GroupName
 }
 
-func IdentifyFacesImg(param IdentifyRequestParam) string {
-
-	var responseValue TrainResponseValue
+func IdentifyFacesImg(param IdentifyRequestParam) (sessionId string, err error) {
 
 	reqParam := url.Values{}
 	reqParam.Set("api_key", API_KEY)
@@ -40,20 +38,23 @@ func IdentifyFacesImg(param IdentifyRequestParam) string {
 		reqParam.Set("group_name", param.GROUP_NAME)
 	}
 
-	response, err := http.Get(identifyApi_url)
+	apiUtl := identifyApi_url + "?" + reqParam.Encode()
+	response, err := http.Get(apiUtl)
 	defer response.Body.Close()
 	if nil != err {
-		panic(err.Error())
+		return
 	}
+
 	body, err := ioutil.ReadAll(response.Body)
 	if nil != err {
-		panic(err.Error())
+		return
 	}
 
+	var responseValue TrainResponseValue
 	err = json.Unmarshal(body, &responseValue)
-	if nil != err {
-		panic(err.Error())
+	if nil == err {
+		sessionId = responseValue.SESSION_ID
 	}
 
-	return responseValue.SESSION_ID
+	return
 }
