@@ -31,12 +31,6 @@ type SearchResponseValue struct {
 	SESSION_ID string                     `json:"session_id"`          //相应请求的session标识符，可用于结果查询
 }
 
-type ResponseValue_Candidate struct {
-	FACE_ID    string  `json:"face_id,omitempty"`
-	SIMILARITY float64 `json:"similarity,omitempty"`
-	TAG        string  `json:"tag,omitempty"`
-}
-
 func SearchFaceImg(param SearchRequestParam) (responseValue SearchResponseValue, err error) {
 
 	reqParam := url.Values{}
