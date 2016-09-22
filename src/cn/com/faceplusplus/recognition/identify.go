@@ -18,7 +18,7 @@ import (
 const identifyApi_url = API_URL + "/recognition/identify"
 
 type IdentifyRequestParam struct {
-	UPLOAD      UploadRequestParam
+	UPLOAD    UploadRequestParam
 	GROUP_ID    string   //识别候选人组成的GroupId
 	GROUP_NAME  string   //识别候选人组成的GroupName
 	MODE        string   //检测模式可以是normal(默认) 或者 oneFace 。在oneFace模式中，检测器仅找出图片中最大的一张脸
