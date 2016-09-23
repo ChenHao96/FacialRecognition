@@ -23,8 +23,8 @@ type GroupingResponseValue struct {
 }
 
 type ResponseValue_Result struct {
-	GROUP     *[][]ResponseValue_Candidate `json:"group,omitempty"`     //分类结果，来自不同人的face被归到不同的类中
-	UnGrouped *[]ResponseValue_Candidate   `json:"ungrouped,omitempty"` //未归类face对象，无法被归类的face集合
+	GROUP     [][]*ResponseValue_Candidate `json:"group,omitempty"`     //分类结果，来自不同人的face被归到不同的类中
+	UnGrouped []*ResponseValue_Candidate   `json:"ungrouped,omitempty"` //未归类face对象，无法被归类的face集合
 }
 
 func GroupingFaceImg(param SearchAndGroupRequestParam) (responseValue GroupingResponseValue, err error) {

@@ -18,7 +18,7 @@ import (
 const verifyApi_url = API_URL + "/recognition/verify"
 
 type VerifyRequestParam struct {
-	FACE_ID     string //待verify的face_id
+	FaceRequestParam
 	PERSON_ID   string //对应的PersonId
 	PERSON_NAME string //对应的PersonName
 	ASYNC       bool   //如果置为true，该API将会以异步方式被调用；也就是立即返回一个session id，稍后可通过/info/get_session查询结果。默认值为false

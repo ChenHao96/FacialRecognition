@@ -18,7 +18,7 @@ import (
 const identifyApi_url = API_URL + "/recognition/identify"
 
 type IdentifyRequestParam struct {
-	UPLOAD    UploadRequestParam
+	UPLOAD      UploadRequestParam
 	GROUP_ID    string   //识别候选人组成的GroupId
 	GROUP_NAME  string   //识别候选人组成的GroupName
 	MODE        string   //检测模式可以是normal(默认) 或者 oneFace 。在oneFace模式中，检测器仅找出图片中最大的一张脸
@@ -27,14 +27,13 @@ type IdentifyRequestParam struct {
 }
 
 type IdentifyResponseValue struct {
-	FACE       *[]IdentifyResponseValue_Faces `json:"face,omitempty"` //人脸的列表
+	FACE       []*IdentifyResponseValue_Faces `json:"face,omitempty"` //人脸的列表
 	SESSION_ID string                         `json:"session_id"`     //相应请求的session标识符，可用于结果查询
 }
 
 type IdentifyResponseValue_Faces struct {
-	CANDIDATE *[]ResponseValue_Face_Attribute_Confidence `json:"candidate,omitempty"` //识别结果。candidate包含不超过3个人，包含相应person信息与相应的置信度
-	FACE_ID   string                                     `json:"face_id"`             //被检测出的每一张人脸都在Face++系统中的标识符
-	POSITION  *ResponseValue_Face_Position               `json:"p·osition,omitempty"` //面部属性坐标
+	CANDIDATE []*ResponseValue_Face_Attribute_Confidence `json:"candidate,omitempty"` //识别结果。candidate包含不超过3个人，包含相应person信息与相应的置信度
+	ResponseValue_Faces
 }
 
 func IdentifyFacesImg(param IdentifyRequestParam) (responseValue IdentifyResponseValue, err error) {
@@ -50,7 +49,7 @@ func IdentifyFacesImg(param IdentifyRequestParam) (responseValue IdentifyRespons
 		reqParam.Set("group_name", param.GROUP_NAME)
 	}
 	var mode = param.MODE
-	if "normal" != mode && "oneFace" != mode{
+	if "normal" != mode && "oneFace" != mode {
 		mode = "normal"
 	}
 	reqParam.Set("mode", mode)

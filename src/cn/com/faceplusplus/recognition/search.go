@@ -27,7 +27,7 @@ type SearchRequestParam struct {
 }
 
 type SearchResponseValue struct {
-	CANDIDATE  *[]ResponseValue_Candidate `json:"candidate,omitempty"` //搜索结果，包含相应face信息与相应的置信度
+	CANDIDATE  []*ResponseValue_Candidate `json:"candidate,omitempty"` //搜索结果，包含相应face信息与相应的置信度
 	SESSION_ID string                     `json:"session_id"`          //相应请求的session标识符，可用于结果查询
 }
 

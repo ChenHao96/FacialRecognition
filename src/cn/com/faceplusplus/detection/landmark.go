@@ -20,7 +20,7 @@ type LandmarkRequestParam struct {
 
 type LandmarkResponseValue struct {
 	SESSION_ID string                         `json:"session_id"` //相应请求的session标识符，可用于结果查询
-	RESULT     []LandmarkResponseValue_Result `json:"result"`     //识别结果
+	RESULT     []*LandmarkResponseValue_Result `json:"result,omitempty"`     //识别结果
 }
 
 type ResponseValue_Face_Landmark struct {

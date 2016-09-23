@@ -1,13 +1,13 @@
 package faceplusplus
 
 import (
-	"io/ioutil"
-	"io"
-	"os"
-	"mime/multipart"
 	"bytes"
-	"net/http"
 	"fmt"
+	"io"
+	"io/ioutil"
+	"mime/multipart"
+	"net/http"
+	"os"
 )
 
 const API_URL = "http://apicn.faceplusplus.com"
@@ -54,9 +54,78 @@ type SearchAndGroupRequestParam struct {
 }
 
 type ResponseValue_Candidate struct {
-	FACE_ID    string  `json:"face_id,omitempty"`
 	SIMILARITY float64 `json:"similarity,omitempty"`
-	TAG        string  `json:"tag,omitempty"`
+	ResponseValue_Faces
+}
+
+type ResponseValue_Face_Attribute struct {
+	AGE     Attribute_Other                          `json:"age"`             //包含年龄分析结果，value的值为一个非负整数表示估计的年龄, range表示估计年龄的正负区间
+	GENDER  ResponseValue_Face_Attribute_Confidence  `json:"gender"`          //包含性别分析结果，value的值为Male/Female, confidence表示置信度
+	GLASS   *ResponseValue_Face_Attribute_Confidence `json:"glass,omitempty"` //包含眼镜佩戴分析结果，value的值为None/Dark/Normal, confidence表示置信度
+	POSE    *ResponseValue_Face_Attribute_Pose       `json:"pose,omitempty"`  //包含脸部姿势分析结果，包括pitch_angle, roll_angle, yaw_angle，分别对应抬头，旋转（平面旋转），摇头。单位为角度。
+	RACE    ResponseValue_Face_Attribute_Confidence  `json:"race"`            //包含人种分析结果，value的值为Asian/White/Black, confidence表示置信度
+	SMILING Attribute_Other                          `json:"smiling"`         //包含微笑程度分析结果，value的值为0－100的实数，越大表示微笑程度越高
+}
+
+type ResponseValue_Face_Attribute_Pose struct {
+	PITCH_ANGLE *Attribute_Other `json:"pitch_angle,omitempty"` //抬头
+	ROLL_ANGLE  *Attribute_Other `json:"roll_angle,omitempty"`  //旋转
+	YAW_ANGLE   *Attribute_Other `json:"yaw_angle,omitempty"`   //摇头
+}
+
+type Attribute_Other struct {
+	RANGE int     `json:"range,omitempty"` //用于年龄 range表示估计年龄的正负区间
+	VALUE float64 `json:"value,omitempty"` //值
+}
+
+type ResponseValue_Faces struct {
+	ATTRIBUTE *ResponseValue_Face_Attribute `json:"attribute,omitempty"` //人脸属性
+	FACE_ID   string                       `json:"face_id"`              //被检测出的每一张人脸都在Face++系统中的标识符
+	POSITION  *ResponseValue_Face_Position  `json:"position,omitempty"`  //面部属性坐标
+	TAG       string                       `json:"tag,omitempty"`        //请求时传递的参数
+}
+
+type DetectResponseValue struct {
+	FACE       []*ResponseValue_Faces `json:"face,omitempty"`      //被检测出的人脸的列表
+	IMG_HEIGHT int                   `json:"img_height,omitempty"` //请求图片的高度
+	IMG_ID     string               `json:"img_id"`                //Face++系统中的图片标识符，用于标识用户请求中的图片
+	IMG_WIDTH  int                  `json:"img_width,omitempty"`   //请求图片的宽度
+	SESSION_ID string               `json:"session_id,omitempty"`  //相应请求的session标识符，可用于结果查询
+	URL        string               `json:"url,omitempty"`         //请求中图片的url
+}
+
+type FaceRequestParam struct {
+	FACE_ID string //待verify的face_id
+}
+
+type FaceResponseValue_Info_Person struct {
+	PERSON_ID   string `json:"person_id,omitempty"`
+	PERSON_NAME string `json:"person_name,omitempty"`
+	TAG         string `json:"tag,omitempty"`
+}
+
+type FaceResponseValue_Info_FaceSet struct {
+	FaceSet_ID   string `json:"faceset_id,omitempty"`
+	FaceSet_NAME string `json:"faceset_name,omitempty"`
+	TAG          string `json:"tag,omitempty"`
+}
+
+type FaceResponseValue_Info_Group struct {
+	GROUP_ID   string `json:"group_id,omitempty"`
+	GROUP_NAME string `json:"group_name,omitempty"`
+	TAG        string `json:"tag,omitempty"`
+}
+
+type PersonResponseValue struct {
+	PERSON []*FaceResponseValue_Info_Person  `json:"person,omitempty"`
+}
+
+type FaceSetResponseValue struct {
+	FaceSet []*FaceResponseValue_Info_FaceSet  `json:"faceset,omitempty"`
+}
+
+type GroupResponseValue struct {
+	GROUP []*FaceResponseValue_Info_Group  `json:"group,omitempty"`
 }
 
 func GetRequest(apiUrl string) (body []byte, err error) {
