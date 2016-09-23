@@ -1,7 +1,11 @@
+/**
+描述
+
+获取一张image的信息, 包括其中包含的face等信息
+*/
 package info
 
 import (
-	. "cn/com/faceplusplus/public"
 	"net/url"
 	"encoding/json"
 )

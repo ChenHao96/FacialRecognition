@@ -128,6 +128,13 @@ type GroupResponseValue struct {
 	GROUP []*FaceResponseValue_Info_Group  `json:"group,omitempty"`
 }
 
+type GroupingPublicResponseValue struct {
+	CREATE_TIME int                   `json:"create_time,omitempty"` //任务开始时间，单位：秒
+	FINISH_TIME int                   `json:"finish_time,omitempty"` //任务结束时间，单位：秒
+	SESSION_ID  string                `json:"session_id"`            //相应请求的session标识符，可用于结果查询
+	STATUS      string                `json:"status,omitempty"`      //在/info/get_session中，相应session的与状态。取值为 SUCC(已完成) / FAILED(失败) / INQUEUE(队列中)
+}
+
 func GetRequest(apiUrl string) (body []byte, err error) {
 
 	response, err := http.Get(apiUrl)

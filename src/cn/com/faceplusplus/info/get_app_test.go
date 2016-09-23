@@ -6,9 +6,9 @@ import (
 	"testing"
 )
 
-func Test_SessionFaceImg(t *testing.T) {
+func Test_InfoApp(t *testing.T) {
 
-	res, err := SessionFaceImg(SessionRequestParam{SESSION_ID:"9e2bfdae6a594057b84b9fde525148de"})
+	res, err := InfoApp()
 	if nil != err {
 		panic(err.Error())
 	}

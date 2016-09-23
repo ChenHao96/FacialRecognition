@@ -1,7 +1,11 @@
+/**
+描述
+
+给定一组Face，返回相应的信息(包括源图片, 相关的person等等)。
+*/
 package info
 
 import (
-	. "cn/com/faceplusplus/public"
 	"net/url"
 	"encoding/json"
 )

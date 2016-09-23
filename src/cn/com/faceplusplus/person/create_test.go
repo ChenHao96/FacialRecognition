@@ -1,4 +1,4 @@
-package info
+package person
 
 import (
 	"fmt"
@@ -6,9 +6,10 @@ import (
 	"testing"
 )
 
-func Test_SessionFaceImg(t *testing.T) {
+func Test_PersonCreateFaceImg(t *testing.T) {
 
-	res, err := SessionFaceImg(SessionRequestParam{SESSION_ID:"9e2bfdae6a594057b84b9fde525148de"})
+	var param PersonCreateRequestParam
+	res, err := PersonCreateFaceImg(param)
 	if nil != err {
 		panic(err.Error())
 	}

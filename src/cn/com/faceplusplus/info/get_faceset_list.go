@@ -1,7 +1,11 @@
+/**
+描述
+
+返回该App中的所有Faceset。
+*/
 package info
 
 import (
-	. "cn/com/faceplusplus/public"
 	"encoding/json"
 	"net/url"
 )

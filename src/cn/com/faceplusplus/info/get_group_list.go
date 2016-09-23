@@ -1,7 +1,11 @@
+/**
+描述
+
+返回这个App中的所有Group
+*/
 package info
 
 import (
-	. "cn/com/faceplusplus/public"
 	"encoding/json"
 	"net/url"
 )
